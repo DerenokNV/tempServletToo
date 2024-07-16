@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.tech.tempservlettoo.queue.MessageProducer;
 
 @Path("/person")
 public class TestRest {
@@ -26,7 +27,33 @@ public class TestRest {
   public Response testMethod() {      
     logger.info( "BBBBBBBBBBBBBBBBBBBBBBBB" );
     
-    Integer d = 900;
+    MessageProducer.getInstance().sendQueueMessage( "Text " + Math.random() );
+      
+    return Response
+            .status( Response.Status.OK )
+            .entity( "TEST" )
+            .build();  
+  }  
+  
+  @GET  
+  @Path("/testSwitchOff")
+  public Response testSwitchOffMethod() {      
+    logger.info( "TTTTTTTTT" );
+    
+    MessageProducer.getInstance().setKnifeSwitchOff( true );
+      
+    return Response
+            .status( Response.Status.OK )
+            .entity( "TEST" )
+            .build();  
+  }  
+  
+  @GET  
+  @Path("/testSwitchOn")
+  public Response testSwitchOnMethod() {      
+    logger.info( "UUUUUUUUUUUUUUUU" );
+    
+    MessageProducer.getInstance().setKnifeSwitchOff( false );
       
     return Response
             .status( Response.Status.OK )

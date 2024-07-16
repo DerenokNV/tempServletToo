@@ -6,6 +6,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.tech.tempservlettoo.queue.MessageCustomer;
+import org.tech.tempservlettoo.queue.MessageProducer;
 import org.tech.tempservlettoo.rest.TestRest;
 
 /**
@@ -25,6 +27,9 @@ public class ContextListener implements ServletContextListener {
 
     // Retrieve name
     String name = context.getServletContextName();
+    
+    MessageCustomer alice = new MessageCustomer<String>();  
+    MessageProducer.getInstance().addSubscriber( alice );
 
     // Log servlet init information
     logger.info("Start \"{}\"", name);
